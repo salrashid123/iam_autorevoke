@@ -36,23 +36,6 @@ This sample shows how you can use the golang api to set a time-limited access co
 - [cloudidentity.v1beta1](https://pkg.go.dev/google.golang.org/api/cloudidentity/v1beta1)
 - [groups.membership.ExpiryDetail](https://cloud.google.com/identity/docs/reference/rest/v1/groups.memberships#ExpiryDetail)
 
-```bash
-# select create a project for quota usage; this is used only if the a _user_ is running the script below.
-#  if you intend to run the script as a service_account, the following is not necessary
-export PROJECT_ID=`gcloud config get-value core/project`
-export PROJECT_NUMBER=`gcloud projects describe $PROJECT_ID --format="value(projectNumber)"`
-gcloud services enable cloudidentity.googleapis.com  --project $PROJECT_ID
-
-# Allow the user who is going to run this script access to use the API on the target project
-#  this admin user must be an OWNER of the group
-export GROUP_OWNER="user4@esodemoapp2.com"
-gcloud projects  add-iam-policy-binding   --role=roles/serviceusage.serviceUsageConsumer  \
-   --member=user:$GROUP_OWNER  $PROJECT_ID
-
-## If you are running this as a service account, set the ADC and do not use --quotaProject
-## TODO: use impersonation instead of svc_account key here
-# export GOOGLE_APPLICATION_CREDENTIALS=/path/to/svc_account.json
-```
 
 The net output should be like this:
 
