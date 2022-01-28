@@ -127,7 +127,7 @@ resource "google_cloud_identity_group_membership" "cloud_identity_group_membersh
 
 Terraform should also does not have support for [updating group memberships](https://cloud.google.com/identity/docs/how-to/manage-expirations#updating_the_expiration_of_a_membership).
 
-- see [terraform-provider-google #10343](https://github.com/hashicorp/terraform-provider-google/issues/10343]
+- see [terraform-provider-google #10343](https://github.com/hashicorp/terraform-provider-google/issues/10343)
 
 ### Logging
 
