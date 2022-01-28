@@ -39,11 +39,12 @@ This sample shows how you can use the golang api to set a time-limited access co
 
 The net output should be like this:
 
+
+list current members
 ```bash
 $ date
 Sat Oct 16 08:04:23 AM EDT 2021
 
-# list current members
 $ gcloud identity groups memberships list --group-email=group1_3@esodemoapp2.com
 ---
 name: groups/02grqrue4gb58m7/memberships/101638213306164197874
@@ -51,13 +52,17 @@ preferredMemberKey:
   id: user2@esodemoapp2.com
 roles:
 - name: MEMBER
+```
 
-# apply the script to add a user for 5mins
+apply the script to add a user for 5mins
+```bash
 $ go run main.go --groupID=02grqrue4gb58m7 --userID=user1@esodemoapp2.com --expireIn=5 --quotaProject=$PROJECT_ID
 Member: user2@esodemoapp2.com
 Added user1@esodemoapp2.com
+```
 
-# confirm add
+confirm add
+```bash
 $ gcloud identity groups memberships list --group-email=group1_3@esodemoapp2.com
 ---
 name: groups/02grqrue4gb58m7/memberships/104497032270219758212
@@ -71,12 +76,14 @@ preferredMemberKey:
   id: user2@esodemoapp2.com
 roles:
 - name: MEMBER
+```
 
-# wait 5mins minutes
+wait 5mins minutes and confirm membership is removed
+```bash
+
 $ date
 Sat Oct 16 08:10:52 AM EDT 2021
 
-# confirm membership is removed
 $ gcloud identity groups memberships list --group-email=group1_3@esodemoapp2.com
 ---
 name: groups/02grqrue4gb58m7/memberships/101638213306164197874
@@ -94,7 +101,7 @@ You could potentially use terraform as a management layer for adding/removing us
 
 The biggest issue with terraform auto-expiring users is that if terraform changes group membership, a different process would modify the resource which makes the terraform state out of sync. I'm keeping this here incase for documentation.
 
-Besides, at the moment `10/16/21` the Terraform provider for [cloud_identity_group](Terraform: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_identity_group)  does NOT support the parameter to add/remove users
+Besides, at the moment `10/16/21` the Terraform provider for [cloud_identity_group](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_identity_group)  does NOT support the parameter to add/remove users
 
 It should be a parameter in the magic-module definition here
 
@@ -119,6 +126,8 @@ resource "google_cloud_identity_group_membership" "cloud_identity_group_membersh
 ```
 
 Terraform should also does not have support for [updating group memberships](https://cloud.google.com/identity/docs/how-to/manage-expirations#updating_the_expiration_of_a_membership).
+
+- see [terraform-provider-google #10343](https://github.com/hashicorp/terraform-provider-google/issues/10343]
 
 ### Logging
 
