@@ -86,6 +86,7 @@ roles:
 - name: MEMBER
 ```
 
+**Note** if the user _already_ exists in the group, invoking this api will result in an error.  If you want want extend membership to an existing user, supply the set the `--autoExtend` flag
 
 ### Terraform
 
@@ -116,6 +117,8 @@ resource "google_cloud_identity_group_membership" "cloud_identity_group_membersh
   }
 }
 ```
+
+Terraform should also does not have support for [updating group memberships](https://cloud.google.com/identity/docs/how-to/manage-expirations#updating_the_expiration_of_a_membership).
 
 ### Logging
 
