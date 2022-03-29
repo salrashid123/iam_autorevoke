@@ -54,6 +54,19 @@ roles:
 - name: MEMBER
 ```
 
+First setup a project_ID to use for [quota purposes](https://cloud.google.com/sdk/gcloud/reference/auth/application-default/set-quota-project) 
+
+```bash
+export PROJECT_ID=`gcloud config get-value core/project`
+export PROJECT_NUMBER=`gcloud projects describe $PROJECT_ID --format='value(projectNumber)'`
+export GCLOUD_USER=`gcloud config get-value core/account`
+
+# if you are running this as a service account, alter --member= to member="serviceAccount:$SVC_ACCOUNT_EMAIL
+gcloud projects add-iam-policy-binding  $PROJECT_ID \
+      --member="user:$GCLOUD_USER" 	--role='roles/serviceusage.serviceUsageConsumer'
+```
+
+
 apply the script to add a user for 5mins
 ```bash
 $ go run main.go --groupID=02grqrue4gb58m7 --userID=user1@esodemoapp2.com --expireIn=5 --quotaProject=$PROJECT_ID
@@ -79,8 +92,8 @@ roles:
 ```
 
 wait 5mins minutes and confirm membership is removed
-```bash
 
+```bash
 $ date
 Sat Oct 16 08:10:52 AM EDT 2021
 

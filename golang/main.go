@@ -87,7 +87,7 @@ func main() {
 		}
 
 		if e.Code == http.StatusConflict && *autoExtend {
-			fmt.Printf("User is already member of group.  Extending membership duration")
+			fmt.Printf("User is already member of group.  Extending membership duration\n")
 			updateResponse, crr := cloudidentityService.Groups.Memberships.ModifyMembershipRoles(memberPath, &cloudidentity.ModifyMembershipRolesRequest{
 				UpdateRolesParams: []*cloudidentity.UpdateMembershipRolesParams{
 					{
